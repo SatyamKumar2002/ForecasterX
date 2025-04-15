@@ -1,7 +1,7 @@
 import React from "react";
 import apiKeys from "./apiKeys";
 import Clock from "react-live-clock";
-import Forcast from "./forcast";
+import Forecast from './Forecast';
 import loader from "./images/WeatherIcons.gif";
 import ReactAnimatedWeather from "react-animated-weather";
 const dateBuilder = (d) => {
@@ -188,7 +188,7 @@ class Weather extends React.Component {
               </div>
             </div>
           </div>
-          <Forcast icon={this.state.icon} weather={this.state.main} />
+          <Forecast icon={this.state.icon} weather={this.state.main} />
         </React.Fragment>
       );
     } else {
