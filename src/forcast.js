@@ -23,6 +23,22 @@ function Forecast(props) {
       });
   }, []);
 
+  // Function to search weather by city name
+  const search = useCallback((city) => {
+    axios
+      .get(`${apiKeys.base}weather?q=${city}&units=metric&APPID=${apiKeys.key}`)
+      .then((response) => {
+        setWeather(response.data);
+        setQuery("");
+        setError("");
+      })
+      .catch((err) => {
+        console.error("API Error:", err.response ? err.response.data : err.message);
+        setWeather({});
+        setError({ message: "Location Not Found", query: query });
+      });
+  }, []);
+
   // Function to request user's location
   useEffect(() => {
     if ("geolocation" in navigator) {
@@ -40,23 +56,7 @@ function Forecast(props) {
       console.error("Geolocation not supported.");
       search("Delhi"); // Fallback to Delhi
     }
-  }, [getCurrentLocationWeather]);
-
-  // Function to search weather by city name
-  const search = (city) => {
-    axios
-      .get(`${apiKeys.base}weather?q=${city}&units=metric&APPID=${apiKeys.key}`)
-      .then((response) => {
-        setWeather(response.data);
-        setQuery("");
-        setError("");
-      })
-      .catch((err) => {
-        console.error("API Error:", err.response ? err.response.data : err.message);
-        setWeather({});
-        setError({ message: "Location Not Found", query: query });
-      });
-  };
+  }, [getCurrentLocationWeather, search]); // Added 'search' to dependencies
 
   const defaults = {
     color: "white",
